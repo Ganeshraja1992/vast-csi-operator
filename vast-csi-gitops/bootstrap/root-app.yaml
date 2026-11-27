@@ -8,11 +8,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<your-username>/vast-csi-gitops.git   # your Git origin
+    repoURL: https://github.com/ganeshraja1992/vast-csi-gitops.git   # your Git origin
     targetRevision: main
     path: apps
   destination:
-    server: https://kubernetes.default.svc   # Application objects live in Argo CD's own cluster (minikube)
+    server: https://api.crc.testing:6443   # Application objects live in Argo CD's own cluster (minikube)
     namespace: argocd
   syncPolicy:
     automated:
