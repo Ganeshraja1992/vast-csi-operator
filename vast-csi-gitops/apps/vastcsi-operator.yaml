@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: <HELM_REPO_URL>        # from: helm repo list   (the VAST chart repo, not your Git repo)
+    repoURL: https://vast-data.github.io/vast-csi        # from: helm repo list   (the VAST chart repo, not your Git repo)
     chart: vastcsi-operator
     targetRevision: 2.6.6           # current version. Use "2.6.*" to auto-pick patch releases
     helm:
