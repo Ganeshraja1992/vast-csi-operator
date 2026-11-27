@@ -1,0 +1,28 @@
+# Argo CD Application: deploys the VAST CSI operator Helm chart to the CRC cluster.
+# To upgrade, change targetRevision, then commit and push. Argo CD syncs it.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vastcsi-operator
+  namespace: argocd                 # Argo CD's namespace in minikube
+spec:
+  project: default
+  source:
+    repoURL: <HELM_REPO_URL>        # from: helm repo list   (the VAST chart repo, not your Git repo)
+    chart: vastcsi-operator
+    targetRevision: 2.6.6           # current version. Use "2.6.*" to auto-pick patch releases
+    helm:
+      releaseName: vastcsi-operator # must match the existing Helm release name
+      # Paste the output of: helm get values vastcsi-operator -n vast-csi
+      # valuesObject:
+      #   key: value
+  destination:
+    name: crc                       # the cluster name used in: argocd cluster add ... --name crc
+    namespace: vast-csi
+  syncPolicy:
+    automated:
+      prune: false                  # never auto-delete operator resources
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true        # VAST CRDs are large
+      - CreateNamespace=true

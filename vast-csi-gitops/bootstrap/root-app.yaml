@@ -1,0 +1,20 @@
+# Root ("app of apps") Application: watches the apps/ folder in your Git repo.
+# Apply this once by hand. After that, every change you push under apps/ syncs automatically.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<your-username>/vast-csi-gitops.git   # your Git origin
+    targetRevision: main
+    path: apps
+  destination:
+    server: https://kubernetes.default.svc   # Application objects live in Argo CD's own cluster (minikube)
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
